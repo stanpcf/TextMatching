@@ -23,14 +23,11 @@ def add_arguments():
     tf.flags.DEFINE_string('class_weight', '1:4', "class weight for 0 and 1 label. ")
     tf.flags.DEFINE_bool('trainable', True,
                          "if the embedding layer is trainable. this param is used only `use_pretrained` is true")
-    tf.flags.DEFINE_boolean('is_retrain', False, 'if retrain, this will done when embedding is no-trainable')
 
     # data relation
     tf.flags.DEFINE_string('max_len', '20:40',   # 20,word. 40, char. is good
                             "regular sentence to a fixed length. first is word, second is char")
 
-    tf.flags.DEFINE_bool('is_kfold', False, "is kfold")
-    tf.flags.DEFINE_integer('kfold', 10, "k when kfold is true")
     return tf.flags.FLAGS
 
 
@@ -44,12 +41,8 @@ def create_hparams(flags):
         use_pretrained=flags.use_pretrained,
         class_weight=dict(enumerate(float(n) for n in flags.class_weight.split(':'))),
         trainable=flags.trainable,
-        is_retrain=flags.is_retrain,
 
         max_len=map(int, flags.max_len.split(':')),
-
-        is_kfold=flags.is_kfold,
-        kfold=flags.kfold,
 
         time=datetime.now().strftime('%y%m%d%H%M%S'),
 
